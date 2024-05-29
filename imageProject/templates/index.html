@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .profile {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .profile h2 {
+            margin-bottom: 10px;
+        }
+        .profile p {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile">
+        <a href="{% url 'adduser' %}">Add user</a>
+        {% for i in useradd %}
+        <h2>Name:</h2>
+        <h2>{{i.name}}</h2>
+        <h2>Image:</h2>
+        <img src="{{i.profile_image.url}}" alt="Profile Image">
+        {% endfor %}
+    </div>
+</body>
+</html>
