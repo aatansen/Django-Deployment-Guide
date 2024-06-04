@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*)+lr7z%i_c0cxj9dw&c!x838&*_caegzn2(nt0-t)qq06zs_z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic', # This must be added before 'django.contrib.staticfiles'
     'django.contrib.staticfiles',
     'imageApp',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

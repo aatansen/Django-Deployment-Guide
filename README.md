@@ -10,6 +10,9 @@
 - [Deployment](#deployment)
     - Cpanel deployment
     - Render deployment
+- [Extra](#extra)
+    - Django uploaded content (File/Image) Deletion
+    - Django uploaded content (File/Image) Rename
 
 ### Preparation
 - Add those in `requirements.txt`
@@ -95,3 +98,57 @@
     - Choose Instance Type `Free` and start deploy.
 
     [⬆️ Go to top](#django-loves-static-files-deployment-guide)
+
+### Extra
+- Django uploaded content (File/Image) Deletion
+    - Install `django-cleanup`
+        - `pip install django-cleanup`
+        - Documentation: [Django Cleanup](https://github.com/un1t/django-cleanup)  
+    - Modify in `settings.py`'s `INSTALLED_APPS`
+        ```python
+        INSTALLED_APPS = [
+            'django.contrib.admin',
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+            'django.contrib.sessions',
+            'django.contrib.messages',
+            'whitenoise.runserver_nostatic', # This must be added before 'django.contrib.staticfiles'
+            'django.contrib.staticfiles',
+            'imageApp',
+            'django_cleanup.apps.CleanupConfig',
+        ]
+        ```
+        > Make sure to add it at the bottom
+    - Now first import the `cleanup` in `models.py`
+        - `from django_cleanup import cleanup`
+        - Add `@cleanup.select` before class defied
+            ```python
+            from django.db import models
+            from django_cleanup import cleanup
+
+            # Create your models here.
+            @cleanup.select
+            class UserModel(models.Model):
+                name=models.CharField(max_length=100)
+                profile_image=models.ImageField(upload_to='profile_image')
+                def __str__(self):
+                    return self.name
+            ```
+            > Note: To ignore a model we can add `@cleanup_ignore`
+
+- Django uploaded content (File/Image) Rename
+    - Add this function in `models.py`
+        ```python
+        def user_directory_path(instance, filename):
+            # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+            return f"user_{instance.name}_{filename}"
+        ```
+        - Here file will be saved as `user_{instance.name}_{file_name}`; e.g: `user_tansen_1.jpg`
+    - Now include this function in `upload_to`
+        ```python
+        class UserModel(models.Model):
+            name=models.CharField(max_length=100)
+            profile_image=models.ImageField(upload_to=user_directory_path)
+            def __str__(self):
+                return self.name
+        ```
