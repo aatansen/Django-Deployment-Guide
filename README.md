@@ -136,6 +136,7 @@
             ```
             > Note: To ignore a model we can add `@cleanup_ignore`
 
+        [⬆️ Go to top](#django-loves-static-files-deployment-guide)
 - Django uploaded content (File/Image) Rename
     - Add this function in `models.py`
         ```python
@@ -152,3 +153,4 @@
             def __str__(self):
                 return self.name
         ```
+        [⬆️ Go to top](#django-loves-static-files-deployment-guide)
