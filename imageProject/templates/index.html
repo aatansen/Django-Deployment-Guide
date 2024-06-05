@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,12 +39,19 @@
 <body>
     <div class="profile">
         <a href="{% url 'adduser' %}">Add user</a>
+        <hr>
         {% for i in useradd %}
-        <h2>Name:</h2>
-        <h2>{{i.name}}</h2>
-        <h2>Image:</h2>
+        <h3>Name:</h3>
+        <p>{{i.name}}</p>
+        <h3>Image:</h3>
         <img src="{{i.profile_image.url}}" alt="Profile Image">
+        <h3>Added by {{i.created_by}}</h3>
+        <button><a href="{% url 'deleteuser' i.id %}">Delete</a></button>
+        <hr>
         {% endfor %}
     </div>
 </body>
 </html>
+
+{% endblock content %}
+    

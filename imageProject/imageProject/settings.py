@@ -132,3 +132,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / 'staticfiles/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+AUTH_USER_MODEL='imageApp.CustomUserModel'
+
+LOGIN_URL='signin'

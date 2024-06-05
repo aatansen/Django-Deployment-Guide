@@ -13,6 +13,7 @@
 - [Extra](#extra)
     - Django uploaded content (File/Image) Deletion
     - Django uploaded content (File/Image) Rename
+    - Signed in user won't be able to access sign-in,sign-up route without log out
 
 ### Preparation
 - Add those in `requirements.txt`
@@ -153,4 +154,22 @@
             def __str__(self):
                 return self.name
         ```
+        [⬆️ Go to top](#django-loves-static-files-deployment-guide)
+
+- Signed in user won't be able to access sign-in,sign-up route without log out
+    - Create a custom function
+        ```python
+        from django.contrib import messages
+
+        def logout_required(view_func):
+            def wrapper(request, *args, **kwargs):
+                if request.user.is_authenticated:
+                    messages.warning(request, "You are already logged in.")
+                    return redirect('dashboard')
+                return view_func(request, *args, **kwargs)
+            return wrapper
+        ```
+        - Here message is added to show the user that he is already logged in
+        - Now add this `@logout_required`before `signin` and `singup` function
+
         [⬆️ Go to top](#django-loves-static-files-deployment-guide)

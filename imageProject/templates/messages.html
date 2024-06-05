@@ -1,0 +1,24 @@
+<style>
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.warning-message {
+    animation: fadeIn 0.5s forwards;
+    color: #ff9100; /* Orange color for the warning message */
+}
+</style>
+    
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'warning' %}
+            <div class="warning-message">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
