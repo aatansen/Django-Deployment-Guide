@@ -140,6 +140,7 @@
 - Set start command `gunicorn imageProject.wsgi:application`
   > here `jobProject` is the project name
 - Choose Instance Type `Free` and start deploy.
+- For static files `py manage.py collectstatic` which we can't run in free instance so we run it locally and then deploy which is in `render branch`
 
 ---
 [⬆️ Go to Context](#context)
