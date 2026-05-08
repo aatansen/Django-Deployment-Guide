@@ -148,6 +148,7 @@
 ### Host locally view globally
 
 - Using [Serveo](https://serveo.net/)
+  - First run the project `http://127.0.0.1:8000/`
   - `ssh -R 80:localhost:8000 serveo.net`
   - To use unique subdomain, need to generate a key
     - `ssh-keygen -t ed25519`
@@ -159,6 +160,29 @@
 
 ---
 [⬆️ Go to Context](#context)
+
+- Using [pinggy](https://pinggy.io/)
+  - First run the project `http://127.0.0.1:8000/`
+  - Go to [pinggy dashboard](https://dashboard.pinggy.io/)
+  - Copy the ssh of `HTTP(S) Tunnel` and make sure to change the port to `8000`
+  - After running the command give a password
+  - Now a domain will be provided by [pinggy](https://pinggy.io/) to access
+
+---
+[⬆️ Go to Context](#context)
+
+- Using [runlocal](https://runlocal.eu/)
+  - First run the project `http://127.0.0.1:8000/`
+  - Now run `npx runlocal 8000`
+    > It will install the `runlocal` and provide the domain to access
+
+---
+[⬆️ Go to Context](#context)
+
+> [!NOTE]
+>
+> - For custom domain `CSRF_TRUSTED_ORIGINS` is important to setup
+> - There are more like this [ngrok](https://ngrok.com/), [localhost.run](https://localhost.run/),[localtunnel](https://theboroer.github.io/localtunnel-www/),[cloudflare-tunnel](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/),[localxpose](https://localxpose.io/),[tunnelmole](https://tunnelmole.com/) etc
 
 ## Extra
 
