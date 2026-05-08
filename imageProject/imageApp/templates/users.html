@@ -1,0 +1,25 @@
+{% extends 'master/base.html' %}
+
+{% block content %}
+<h1>All users</h1>
+<div class="container">
+    <div class="row g-4">
+
+        {% for user in users %}
+        <div class="col-md-4 col-lg-3">
+            <div class="card h-100">
+                <img src="{{user.profile_image.url}}" class="card-img-top" alt="...">
+
+                <div class="card-body">
+                    <h3 class="card-title">{{user.name}}</h3>
+                    <h5 class="card-title">Created by: {{user.created_by}}</h5>
+                    <a href="{% url 'deleteuser' user.id %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock content %}
