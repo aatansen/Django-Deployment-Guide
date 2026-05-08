@@ -3,12 +3,12 @@ from django_cleanup import cleanup
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-def user_directory_path(instance, filename):
-    return f"user_{instance.name}_added_by_{instance.created_by.username}_{filename}"
-
 class CustomUserModel(AbstractUser):
     def __str__(self):
         return self.username
+
+def user_directory_path(instance, filename):
+    return f"user_{instance.name}_added_by_{instance.created_by.username}_{filename}"
 
 @cleanup.select
 class UserModel(models.Model):
