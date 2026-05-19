@@ -9,6 +9,7 @@
   - [Deployment](#deployment)
     - [Cpanel Deployment](#cpanel-deployment)
     - [Render Deployment](#render-deployment)
+    - [PythonAnywhere Deployment](#pythonanywhere-deployment)
     - [Host locally view globally](#host-locally-view-globally)
   - [Extra](#extra)
     - [Django uploaded content (File/Image) Deletion](#django-uploaded-content-fileimage-deletion)
@@ -141,6 +142,103 @@
   > here `jobProject` is the project name
 - Choose Instance Type `Free` and start deploy.
 - For static files `py manage.py collectstatic` which we can't run in free instance so we run it locally and then deploy which is in `render branch`
+
+---
+[⬆️ Go to Context](#context)
+
+### PythonAnywhere Deployment
+
+- Create an account and login to [PythonAnywhere](https://www.pythonanywhere.com/)
+- Go to `Consoles` tab and open `bash`
+- Now cleanup current files and directory
+
+  ```sh
+  rm -rf ~/*
+  rm -rf ~/.??*
+  ```
+
+- Now upload the `render branch` as zip file
+  - make sure django version is `5.2.x` cause in [PythonAnywhere](https://www.pythonanywhere.com/) latest python currently is 3.10 which does not support django version `6.0.x`. Refs: [docs](https://docs.djangoproject.com/en/6.0/faq/install/)
+  - We can edit the requirements.txt inside console using `nano` or directly change it before zipping it and change the version to `5.2.x`
+
+    ```sh
+    Django==5.2.14
+    ```
+
+- Now upload and unzip using the bash console
+  - Make sure it will be unzip in a single directory
+  - For example if we unzip `unzip imageProject.zip` output will be inside `imageProject` directory
+  - To ensure this we can open the zip file and see if the contents are in single folder or not
+  - Otherwise we have to mention directory name
+
+    ```sh
+    unzip imageProject.zip -d project-files
+    ```
+
+- Now go to `Web` tab
+- Select `Manual configuration (including virtualenvs)`
+- Select `Python 3.10`
+- Add source code path `/home/aatansen/imageProject`
+- Now we have to configure `WSGI configuration file:/var/www/aatansen_pythonanywhere_com_wsgi.py`
+  - This is our project WSGI
+
+    ```py
+    import os
+
+    from django.core.wsgi import get_wsgi_application
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'imageProject.settings')
+
+    application = get_wsgi_application()
+    ```
+
+  - According to this we have to edit the `file:/var/www/aatansen_pythonanywhere_com_wsgi.py` file
+
+    ```py
+    import os
+    import sys
+
+    # 1. add project path (CRITICAL for PythonAnywhere)
+    path = '/home/aatansen/imageProject'
+    if path not in sys.path:
+      sys.path.append(path)
+
+    # 2. set settings module
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'imageProject.settings')
+
+    # 3. load Django app
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()
+    ```
+
+- Now Create virtual environment
+  - Open new bash in `Consoles` tab
+
+    ```sh
+    python -m venv .venv
+    ```
+
+  - Activate it
+
+    ```sh
+    source .venv/bin/activate
+    ```
+
+  - Install `requirements.txt`
+
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+- Add its path in `Virtualenv: /home/aatansen/.venv`
+- Reload the site and it is done
+- [https://aatansen.pythonanywhere.com/](https://aatansen.pythonanywhere.com/)
+
+> [!IMPORTANT]
+>
+> - We are using `whitenoise` for our static file management
+> - To show media we have to add `/media/` : `/home/aatansen/imageProject/media/` in `Static files:` settings
+>
 
 ---
 [⬆️ Go to Context](#context)
